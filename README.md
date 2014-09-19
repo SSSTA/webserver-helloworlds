@@ -13,8 +13,8 @@ webserver-helloworlds
 
 ## 目录结构 ##
 
-c         --  C啊...好像不太会出现很多更新的样子
-php       --  PHP大法什么的
-python27  --  这里主要是存放不能被Python3兼容的东西
-python34  --  重点更新的仓库, 针对Python3.4+以及能被Python2.7兼容的代码
++ c         --  C啊...好像不太会出现很多更新的样子
++ php       --  PHP大法什么的
++ python27  --  这里主要是存放不能被Python3兼容的东西
++ python34  --  重点更新的仓库, 针对Python3.4+以及能被Python2.7兼容的代码
 
