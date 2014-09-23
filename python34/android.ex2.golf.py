@@ -24,7 +24,6 @@ P([s for s in R(2,1000) if not[i for i in R(2,s) if s//i*i==s]])
 def gcd(a,b):return gcd(a-b,b) if a>b else gcd(b,a) if a<b else a
 def lcm(a,b):return a*b//gcd(a,b)
 
-
 print(gcd(13, 169), lcm(13, 169))
 
 # 4. 打印
@@ -41,12 +40,11 @@ def print_calendar(mon):
     days=[0,31,28,31,30,31,30,31,31,30,31,30,31]
     pos=(3+sum(days[:mon]))%7
     P("       %2d月" % mon, "日 一 二 三 四 五 六", sep='\n')
-    [P(("-- " if i<=pos else "%2d "%(i-pos))+('\n'if(i>=6and(i%7==0))else''),end='')for i in R(1,1+days[mon]+pos)]
+    [P(("%2d "%(i-pos)if i>pos else"-- ")+('\n'if(i>=6and(i%7==0))else''),end='')for i in R(1,1+days[mon]+pos)]
     P()
-
 
 for m in range(1, 13):
     print_calendar(m)
 
 # 8. 9x9
-[P(("%d "%y if y>0 else"- "),end='')or([P(("%2d "%(x*max(y,1)))if x>=y else "   ", end='') for x in R(1,10)]and P()) for y in R(10)]
+[P(("%d "%y if y else"- "),end='')or([P("   "if x<y else("%2d "%(x*max(y,1))),end='') for x in R(1,10)]and P())for y in R(10)]
