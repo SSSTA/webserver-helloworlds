@@ -47,7 +47,7 @@ C有一个极其精简的核心：
 
 这里有一个很和谐的Hello World例程：
 
-'''C
+```C
 #include <stdio.h>
 int main()
 {
@@ -55,11 +55,11 @@ int main()
     printf("%s\n", hw);
     return 0;
 }
-'''
+```
 
 但是，正如我说的，类型对机器不重要。下面的程序一样能打印出**Hello, wizard!**
 
-'''C
+```C
 #include <stdio.h>
 int main()
 {
@@ -72,11 +72,11 @@ int main()
     printf("%s\n", foo);
     return 0;
 }
-'''
+```
 
 更糟糕的是，C在**printf**这里不会作类型检查。事实上在更为危险的 地方都不会。这意味着巨大的风险。C中的字符串以**0x00**标记结束。上面的"Hello, wizard!"是有意构造的，其结尾有足够的**0x00**。如果是一些更不幸的情况，比如：
 
-'''C
+```C
 #include <stdio.h>
 
 int bazinga[] = {1769627970, 560031598}; // "Bazinga!"
@@ -88,7 +88,7 @@ int main()
     // will print "Bazinga! !!LEAVE ME!! "
     return 0;
 }
-'''
+```
 
 由于8个**char**刚好被映射到2个**int**上，这里没有**0x00**来终结bazinga。所以后面的**oops**也会被打印。这里的**oops**经过专门设计以确保它在内存中出现在紧邻**bazinga**的位置，并封堵**bazinga**的漏洞。对于更一般的情况，程序往往会走向崩溃，或者，更糟糕的，被入侵者利用。
 
@@ -107,7 +107,7 @@ int main()
 
 尝试这两个例子以验证这句话：
 
-'''C
+```C
 #include <stdio.h>
 int main()
 {
@@ -116,9 +116,9 @@ int main()
     // will print 3
     return 0;
 }
-'''
+```
 
-'''C
+```C
 #include <stdio.h>
 int main()
 {
@@ -127,7 +127,7 @@ int main()
     // will print 3, too
     return 0;
 }
-'''
+```
 
 ### 枚举类型 ###
 + 简单来说，枚举类型不是真实存在的。C只是借助这种更简单的形式来标示状态。
@@ -152,7 +152,7 @@ int main()
 
 举个更疯狂的例子。
 
-'''C
+```C
 #include <stdio.h>
 const char* bazinga()
 {
@@ -164,13 +164,13 @@ int main()
     printf("%s\n", bazinga());
     return 0;
 }
-'''
+```
 
 很和谐，不是吗？
 
 但是如果你执意希望做点不一样的事情，我们依然可以：
 
-'''C
+```C
 #include <stdio.h>
 const char* bazinga()
 {
@@ -184,7 +184,7 @@ int main()
     // just, bazinga!
     return 0;
 }
-'''
+```
 
 这不是黑魔法。这很简单。就像我在绪论说的，函数入口也只是用于计算内存地址——代码的内存地址。所以，函数bazinga本身也是一个地址，额……不过有个更高端的名字，函数指针。这段代码是怎么工作的呢？反编译上面的正常版本，测量bazinga函数被编译成二进制文件之后，返回的字符串常量的地址离函数入口有多远。答案是5字节，所以跳过5个字节，读取长4个字节的一个新的地址——"Bazinga!"的地址，然后把它交给printf。
 
@@ -193,12 +193,12 @@ gcc能勉强编译它，clang会默认拒绝编译的。这段代码对具体细
 
 不过也有一件很有意思的事情，那就是编译这段代码时候的报错信息：
 
-'''
+```
 pos-no.c: In function ‘int main()’:
 pos-no.c:9:36: warning: pointer to a function used in arithmetic [-Wpointer-arith]
      printf("%s\n", *(int*)5[bazinga]);
                                     ^
-'''
+```
 
 pointer to a function used in **arithmetic**！！
 
