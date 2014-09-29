@@ -143,10 +143,71 @@ int main()
 
 + 更进一步的说，结构提成员访问用的.和->，也只是语法糖。
 
+```C
+#include <stdio.h>
+
+typedef unsigned char byte;
+
+typedef struct
+{
+	byte R;
+	byte G;
+	byte B;
+	const char* desc;
+} RGBColor;
+
+RGBColor make_color(byte R, byte G, byte B, const char* desc)
+{
+	RGBColor color = {R, G, B, desc};
+	return color;
+}
+
+void print_color(RGBColor color)
+{
+	printf("%s: %02X%02X%02X\n",
+		color.desc, color.R, color.G, color.B);
+}
+
+int main()
+{
+	RGBColor red = make_color(0x66, 0xCC, 0xFF, "天依蓝");
+	print_color(red);
+	return 0;
+}
+```
+
+其中的**print_color**完全可以被修改成
+
+```C
+void pprint_color(RGBColor *color)
+{
+	printf("%s: %02X%02X%02X\n",
+		color->desc,
+		color->R,
+		color->G,
+		color->B);
+}
+```
+
+或者，更接近**地址+偏移量**的写法：
+
+```C
+void print_color(RGBColor color)
+{
+	byte *base = (byte*)&color;
+	printf("%s: %02X%02X%02X\n",
+		*(char**)(base+8),
+		*(base+0),
+		*(base+1),
+		*(base+2));
+}
+```
+
 ### 联合 ###
-	+ 大体同上，但是联合是共享空间的，同一时间只有一个成员有效。
++ 大体同上，但是联合是共享空间的，同一时间只有一个成员有效。
 
 ### 指针 ###
++ 总体上这就是C的半壁江山。
 + C的灵魂所在。爱之深，恨之切。
 + 指针就是地址。就这么简单。但是指针之于C就像that之于English。
 
