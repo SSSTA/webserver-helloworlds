@@ -68,13 +68,14 @@ int main()
     	1998597231,
     	1918990953,
     	8548
-    };              // "Hello, wizard!\0"
+    };
+    // "Hello, wizard!\0"
     printf("%s\n", foo);
     return 0;
 }
 ```
 
-更糟糕的是，C在**printf**这里不会作类型检查。事实上在更为危险的 地方都不会。这意味着巨大的风险。C中的字符串以**0x00**标记结束。上面的"Hello, wizard!"是有意构造的，其结尾有足够的**0x00**。如果是一些更不幸的情况，比如：
+更糟糕的是，C在**printf**这里不会作类型检查。事实上在更为危险的地方都不会。这意味着巨大的风险。C中的字符串以**0x00**标记结束。上面的"Hello, wizard!"是有意构造的，其结尾有足够的**0x00**。如果是一些更不幸的情况，比如：
 
 ```C
 #include <stdio.h>
@@ -179,7 +180,7 @@ int main()
 其中的**print_color**完全可以被修改成
 
 ```C
-void pprint_color(RGBColor *color)
+void print_colorp(RGBColor *color)
 {
 	printf("%s: %02X%02X%02X\n",
 		color->desc,
